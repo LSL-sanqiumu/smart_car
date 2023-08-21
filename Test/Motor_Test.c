@@ -26,7 +26,7 @@ uint8_t Motor_test_KeyStatus(void)
 	return 0;
 }
 
-void Motor_test(int16_t* speed)
+void Motor_Test(int16_t* speed)
 {
 	if(Motor_test_KeyStatus() == 1){
 		*speed += 2;
@@ -39,4 +39,19 @@ void Motor_test(int16_t* speed)
 	}
 	Motor_SetSpeed_Left(*speed);
 	Motor_SetSpeed_Right(*speed);
+}
+// 90 2 100 90
+void Motor_SpeedTest(int16_t* speed_start, int16_t step, int16_t max_speed, int16_t min_speed)
+{
+	if(Motor_test_KeyStatus() == 1){
+		*speed_start += step;
+		if(*speed_start > 0 && *speed_start > max_speed){
+			*speed_start = -max_speed;
+		}
+		if(*speed_start < 0 && *speed_start > -min_speed){
+			*speed_start = min_speed;
+		}
+	}
+	Motor_SetSpeed_Left(*speed_start);
+	Motor_SetSpeed_Right(*speed_start);
 }

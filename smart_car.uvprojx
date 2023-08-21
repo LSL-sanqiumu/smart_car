@@ -701,14 +701,34 @@
               <FilePath>.\Hardware\Motor.h</FilePath>
             </File>
             <File>
-              <FileName>Car.c</FileName>
+              <FileName>Serial.c</FileName>
               <FileType>1</FileType>
-              <FilePath>.\Hardware\Car.c</FilePath>
+              <FilePath>.\Hardware\Serial.c</FilePath>
             </File>
             <File>
-              <FileName>Car.h</FileName>
+              <FileName>Serial.h</FileName>
               <FileType>5</FileType>
-              <FilePath>.\Hardware\Car.h</FilePath>
+              <FilePath>.\Hardware\Serial.h</FilePath>
+            </File>
+            <File>
+              <FileName>Car_Control.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Hardware\Car_Control.c</FilePath>
+            </File>
+            <File>
+              <FileName>Car_Control.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\Hardware\Car_Control.h</FilePath>
+            </File>
+            <File>
+              <FileName>Bluetooth_Control.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Hardware\Bluetooth_Control.c</FilePath>
+            </File>
+            <File>
+              <FileName>Bluetooth_Control.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\Hardware\Bluetooth_Control.h</FilePath>
             </File>
           </Files>
         </Group>
@@ -749,6 +769,16 @@
               <FileName>Motor_Test.h</FileName>
               <FileType>5</FileType>
               <FilePath>.\Test\Motor_Test.h</FilePath>
+            </File>
+            <File>
+              <FileName>Serial_Test.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Test\Serial_Test.c</FilePath>
+            </File>
+            <File>
+              <FileName>Serial_Test.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\Test\Serial_Test.h</FilePath>
             </File>
           </Files>
         </Group>
