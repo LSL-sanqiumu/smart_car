@@ -1,5 +1,5 @@
-#ifndef __BLUETOOTH_CONTROL_H__
-#define __BLUETOOTH_CONTROL_H__
+#ifndef __BLUETOOTH_H__
+#define __BLUETOOTH_H__
 
 #define Startup         1
 #define Stop            2

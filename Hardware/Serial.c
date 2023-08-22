@@ -1,3 +1,17 @@
+/*
+**********************************************************
+*
+*	模块名称 : 串口模块
+*	文件名称 : Serial.c
+*	版	本 : V1.0
+*	说	明 : 串口实现：字符发送、数据包接收
+*	修改记录 : 
+*		版本号     日期        作者        说明
+*		v1.0	2023-08-022     lsl    利用DHT11的单总线协议实现驱动
+*
+**********************************************************
+*/
+
 #include "stm32f10x.h"                  // Device header
 
 uint8_t Rx_DataFlag;
@@ -45,6 +59,7 @@ void Serial_SendByte(uint16_t byte)
 	USART_SendData(USART3, byte);
 	while(USART_GetFlagStatus(USART3, USART_FLAG_TXE) == RESET);
 }
+
 void Serial_SendString(char* string)
 {
 	uint16_t i;

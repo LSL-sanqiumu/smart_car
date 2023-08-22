@@ -711,24 +711,24 @@
               <FilePath>.\Hardware\Serial.h</FilePath>
             </File>
             <File>
-              <FileName>Car_Control.c</FileName>
+              <FileName>Bluetooth.c</FileName>
               <FileType>1</FileType>
-              <FilePath>.\Hardware\Car_Control.c</FilePath>
+              <FilePath>.\Hardware\Bluetooth.c</FilePath>
             </File>
             <File>
-              <FileName>Car_Control.h</FileName>
+              <FileName>Bluetooth.h</FileName>
               <FileType>5</FileType>
-              <FilePath>.\Hardware\Car_Control.h</FilePath>
+              <FilePath>.\Hardware\Bluetooth.h</FilePath>
             </File>
             <File>
-              <FileName>Bluetooth_Control.c</FileName>
+              <FileName>Car.c</FileName>
               <FileType>1</FileType>
-              <FilePath>.\Hardware\Bluetooth_Control.c</FilePath>
+              <FilePath>.\Hardware\Car.c</FilePath>
             </File>
             <File>
-              <FileName>Bluetooth_Control.h</FileName>
+              <FileName>Car.h</FileName>
               <FileType>5</FileType>
-              <FilePath>.\Hardware\Bluetooth_Control.h</FilePath>
+              <FilePath>.\Hardware\Car.h</FilePath>
             </File>
           </Files>
         </Group>

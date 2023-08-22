@@ -1,13 +1,12 @@
 #include "stm32f10x.h"                  // Device header
-
 #include "OLED.h"
 #include "Delay.h"
 #include "LED.h"
+
 #include "Motor.h"
 #include "Serial.h"
-#include "Car_Control.h"
-#include "Bluetooth_Control.h"
-
+#include "Car.h"
+#include "Bluetooth.h"
 #include "Motor_Test.h"
 #include "Serial_Test.h"
 

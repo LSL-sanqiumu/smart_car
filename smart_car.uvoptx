@@ -285,7 +285,7 @@
 
   <Group>
     <GroupName>Library</GroupName>
-    <tvExp>1</tvExp>
+    <tvExp>0</tvExp>
     <tvExpOptDlg>0</tvExpOptDlg>
     <cbSel>0</cbSel>
     <RteFlg>0</RteFlg>
@@ -996,8 +996,8 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>.\Hardware\Car_Control.c</PathWithFileName>
-      <FilenameWithoutPath>Car_Control.c</FilenameWithoutPath>
+      <PathWithFileName>.\Hardware\Bluetooth.c</PathWithFileName>
+      <FilenameWithoutPath>Bluetooth.c</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>
@@ -1008,8 +1008,8 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>.\Hardware\Car_Control.h</PathWithFileName>
-      <FilenameWithoutPath>Car_Control.h</FilenameWithoutPath>
+      <PathWithFileName>.\Hardware\Bluetooth.h</PathWithFileName>
+      <FilenameWithoutPath>Bluetooth.h</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>
@@ -1020,8 +1020,8 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>.\Hardware\Bluetooth_Control.c</PathWithFileName>
-      <FilenameWithoutPath>Bluetooth_Control.c</FilenameWithoutPath>
+      <PathWithFileName>.\Hardware\Car.c</PathWithFileName>
+      <FilenameWithoutPath>Car.c</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>
@@ -1032,8 +1032,8 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>.\Hardware\Bluetooth_Control.h</PathWithFileName>
-      <FilenameWithoutPath>Bluetooth_Control.h</FilenameWithoutPath>
+      <PathWithFileName>.\Hardware\Car.h</PathWithFileName>
+      <FilenameWithoutPath>Car.h</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>
@@ -1041,7 +1041,7 @@
 
   <Group>
     <GroupName>User</GroupName>
-    <tvExp>0</tvExp>
+    <tvExp>1</tvExp>
     <tvExpOptDlg>0</tvExpOptDlg>
     <cbSel>0</cbSel>
     <RteFlg>0</RteFlg>
