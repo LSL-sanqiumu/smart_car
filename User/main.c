@@ -23,9 +23,9 @@ int main(void)
 	LED_Emerald_Init();
 	Motor_Init();
 	Serial_Init();
-	Infrared_Init();
-	HCSR04_Init();
-	Key_Init();
+//	Infrared_Init();
+//	HCSR04_Init();
+////	Key_Init();
 	while(1){
 		if(Rx_DataFlag == 1){
 			Serial_SendString("OK  ");
@@ -42,12 +42,12 @@ int main(void)
 					break;
 				case GoForward:
 					Car_SetGoBackwardSpeed(90);
-					Delay_ms(500);
+					Delay_ms(200);
 					Car_SetGoBackwardSpeed(0);
 					break;
 				case GoBackward:
 					Car_SetGoBackwardSpeed(-90);
-					Delay_ms(500);
+					Delay_ms(200);
 					Car_SetGoBackwardSpeed(0);
 					break;
 				case TurnLeft:
