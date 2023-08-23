@@ -30,12 +30,16 @@
 ".\objects\led.o"
 ".\objects\motor.o"
 ".\objects\serial.o"
-".\objects\bluetooth.o"
 ".\objects\car.o"
+".\objects\infrared.o"
+".\objects\hcsr04.o"
+".\objects\bt_hc06.o"
 ".\objects\main.o"
 ".\objects\stm32f10x_it.o"
 ".\objects\motor_test.o"
 ".\objects\serial_test.o"
+".\objects\infrared_test.o"
+".\objects\hcsr04_test.o"
 --strict --scatter ".\Objects\smart_car.sct"
 --summary_stderr --info summarysizes --map --load_addr_map_info --xref --callgraph --symbols
 --info sizes --info totals --info unused --info veneers

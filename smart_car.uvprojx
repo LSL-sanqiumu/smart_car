@@ -711,16 +711,6 @@
               <FilePath>.\Hardware\Serial.h</FilePath>
             </File>
             <File>
-              <FileName>Bluetooth.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\Hardware\Bluetooth.c</FilePath>
-            </File>
-            <File>
-              <FileName>Bluetooth.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\Hardware\Bluetooth.h</FilePath>
-            </File>
-            <File>
               <FileName>Car.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\Hardware\Car.c</FilePath>
@@ -729,6 +719,36 @@
               <FileName>Car.h</FileName>
               <FileType>5</FileType>
               <FilePath>.\Hardware\Car.h</FilePath>
+            </File>
+            <File>
+              <FileName>Infrared.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Hardware\Infrared.c</FilePath>
+            </File>
+            <File>
+              <FileName>Infrared.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\Hardware\Infrared.h</FilePath>
+            </File>
+            <File>
+              <FileName>HCSR04.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Hardware\HCSR04.c</FilePath>
+            </File>
+            <File>
+              <FileName>HCSR04.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\Hardware\HCSR04.h</FilePath>
+            </File>
+            <File>
+              <FileName>BT_HC06.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Hardware\BT_HC06.c</FilePath>
+            </File>
+            <File>
+              <FileName>BT_HC06.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\Hardware\BT_HC06.h</FilePath>
             </File>
           </Files>
         </Group>
@@ -779,6 +799,26 @@
               <FileName>Serial_Test.h</FileName>
               <FileType>5</FileType>
               <FilePath>.\Test\Serial_Test.h</FilePath>
+            </File>
+            <File>
+              <FileName>Infrared_Test.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Test\Infrared_Test.c</FilePath>
+            </File>
+            <File>
+              <FileName>Infrared_Test.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\Test\Infrared_Test.h</FilePath>
+            </File>
+            <File>
+              <FileName>HCSR04_Test.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Test\HCSR04_Test.c</FilePath>
+            </File>
+            <File>
+              <FileName>HCSR04_Test.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\HCSR04_Test.h</FilePath>
             </File>
           </Files>
         </Group>

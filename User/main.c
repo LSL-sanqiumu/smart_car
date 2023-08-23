@@ -6,7 +6,10 @@
 #include "Motor.h"
 #include "Serial.h"
 #include "Car.h"
-#include "Bluetooth.h"
+#include "BT_HC06.h"
+#include "Infrared.h"
+#include "HCSR04.h"
+
 #include "Motor_Test.h"
 #include "Serial_Test.h"
 
@@ -15,10 +18,14 @@ extern char Rx_DataPacket[100];
 
 int main(void)
 {
+	NVIC_PriorityGroupConfig(NVIC_PriorityGroup_2);
+	OLED_Init();
 	LED_Emerald_Init();
 	Motor_Init();
 	Serial_Init();
-	
+	Infrared_Init();
+	HCSR04_Init();
+	Key_Init();
 	while(1){
 		if(Rx_DataFlag == 1){
 			Serial_SendString("OK  ");
@@ -50,7 +57,8 @@ int main(void)
 					Car_ForwardTurnRight();
 					break;
 			}
-		}
+		}	
+
 	}
 
 }

@@ -34,6 +34,8 @@
 .\objects\main.o: .\Hardware\Motor.h
 .\objects\main.o: .\Hardware\Serial.h
 .\objects\main.o: .\Hardware\Car.h
-.\objects\main.o: .\Hardware\Bluetooth.h
+.\objects\main.o: .\Hardware\BT_HC06.h
+.\objects\main.o: .\Hardware\Infrared.h
+.\objects\main.o: .\Hardware\HCSR04.h
 .\objects\main.o: .\Test\Motor_Test.h
 .\objects\main.o: .\Test\Serial_Test.h
