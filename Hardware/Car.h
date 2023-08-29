@@ -10,4 +10,6 @@ void Car_ForwardTurnRight(void);
 void Car_InverseTurnLeft(void);
 void Car_InverseTurnRight(void);
 
+void Car_ManualMode(uint8_t* flag, char* command);
+
 #endif

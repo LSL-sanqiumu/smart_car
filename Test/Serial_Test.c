@@ -2,8 +2,8 @@
 
 #include "Serial.h"
 
-extern char Rx_DataPacket[100];
-extern uint8_t Rx_DataFlag;
+extern char Serial_RxData[100];
+extern uint8_t Serial_RxFlag;
 
 void Serial_SendStr_Test(char* str)
 {
@@ -12,10 +12,10 @@ void Serial_SendStr_Test(char* str)
 
 void Serial_RxDataPacket_Test(void)
 {
-	if(Rx_DataFlag == 1){
+	if(Serial_RxFlag == 1){
 		Serial_SendString("OK  ");
-		Serial_SendString(Rx_DataPacket);
-		Rx_DataFlag = 0;
+		Serial_SendString(Serial_RxData);
+		Serial_RxFlag = 0;
 		Serial_SendString("\n");
 	}
 }

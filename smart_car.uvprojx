@@ -750,6 +750,16 @@
               <FileType>5</FileType>
               <FilePath>.\Hardware\BT_HC06.h</FilePath>
             </File>
+            <File>
+              <FileName>SG90.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Hardware\SG90.c</FilePath>
+            </File>
+            <File>
+              <FileName>SG90.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\Hardware\SG90.h</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -814,11 +824,6 @@
               <FileName>HCSR04_Test.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\Test\HCSR04_Test.c</FilePath>
-            </File>
-            <File>
-              <FileName>HCSR04_Test.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\HCSR04_Test.h</FilePath>
             </File>
           </Files>
         </Group>

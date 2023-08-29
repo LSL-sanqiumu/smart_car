@@ -16,6 +16,12 @@
 */
 #include "stm32f10x.h"                  // Device header
 #include "Motor.h"
+#include "Serial.h"
+#include "BT_HC06.h"
+#include "Infrared.h"
+#include "HCSR04.h"
+#include "SG90.h"
+#include "Delay.h"
 
 #define VEER_SPEED 90
 
@@ -55,3 +61,62 @@ void Car_InverseTurnRight(void)
 	Motor_SetSpeed_Left(-VEER_SPEED);
 	Motor_SetSpeed_Right(VEER_SPEED);
 }
+
+/* 手动 */
+void Car_ManualMode(uint8_t* flag, char* command)
+{
+	while(1){
+		if(*flag == 1){
+		Serial_SendString("OK  ");
+		Serial_SendString(command);
+		*flag = 0;
+		Serial_SendString("\n");
+		switch(BT_GetInstructionValue(command)){
+			case Startup:
+				Car_SetGoForwardSpeed(90);
+				break;
+			case Stop:
+				Car_SetGoForwardSpeed(0);
+				break;
+			case GoForward:
+				Car_SetGoBackwardSpeed(90);
+				Delay_ms(200);
+				Car_SetGoBackwardSpeed(0);
+				break;
+			case GoBackward:
+				Car_SetGoBackwardSpeed(-90);
+				Delay_ms(200);
+				Car_SetGoBackwardSpeed(0);
+				break;
+			case TurnLeft:
+				Car_ForwardTurnLeft();
+				Delay_ms(200);
+				Car_SetGoForwardSpeed(0);
+				break;
+			case TurnRight:
+				Car_ForwardTurnRight();
+				Delay_ms(200);
+				Car_SetGoForwardSpeed(0);
+				break;
+			case ManualMode_Exit:
+				return;
+			}
+		}
+	}
+}
+
+
+/* 自动避障 */
+/* 每隔一段时间发送超声波，如果检测到在距离在一定范围内则代表前方有障碍物
+	有障碍物：转动舵机，检测左方、右方是否有障碍物，没有杂物就左转然后前进
+*/
+
+
+/* 自动寻迹 */
+/*  */
+
+
+/* 原地旋转 */
+
+
+

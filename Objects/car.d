@@ -29,3 +29,9 @@
 .\objects\car.o: .\Library\stm32f10x_wwdg.h
 .\objects\car.o: .\Library\misc.h
 .\objects\car.o: Hardware\Motor.h
+.\objects\car.o: Hardware\Serial.h
+.\objects\car.o: Hardware\BT_HC06.h
+.\objects\car.o: Hardware\Infrared.h
+.\objects\car.o: Hardware\HCSR04.h
+.\objects\car.o: Hardware\SG90.h
+.\objects\car.o: .\System\Delay.h

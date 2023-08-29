@@ -10,6 +10,9 @@
 #define TurnRight       7
 #define AutoAvoid       8
 #define AutoWayfinding  9
+#define ManualMode_Exit 10
+#define AutoAvoid_Exit  11
+#define AutoWayfinding_Exit  12
 
 uint8_t BT_GetInstructionValue(char* command);
 

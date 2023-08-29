@@ -29,3 +29,4 @@
 .\objects\bt_hc06.o: .\Library\stm32f10x_wwdg.h
 .\objects\bt_hc06.o: .\Library\misc.h
 .\objects\bt_hc06.o: D:\EmbeddedSoftware\Keil5\ARM\ARMCC\Bin\..\include\string.h
+.\objects\bt_hc06.o: Hardware\BT_HC06.h

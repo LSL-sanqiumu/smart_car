@@ -37,79 +37,61 @@ void HCSR04_Init(void)
 	
 	GPIO_InitTypeDef GPIO_InitStruct;
 	GPIO_InitStruct.GPIO_Mode = GPIO_Mode_IPD;
-	GPIO_InitStruct.GPIO_Pin = GPIO_Pin_9;      // echo
+	GPIO_InitStruct.GPIO_Pin = GPIO_Pin_15;      // echo
 	GPIO_InitStruct.GPIO_Speed = GPIO_Speed_50MHz;
 	GPIO_Init(GPIOA, &GPIO_InitStruct);
 	GPIO_InitStruct.GPIO_Mode = GPIO_Mode_Out_PP;
-	GPIO_InitStruct.GPIO_Pin = GPIO_Pin_11;     // trig
+	GPIO_InitStruct.GPIO_Pin = GPIO_Pin_8;     // trig
 	GPIO_Init(GPIOA, &GPIO_InitStruct);
-	GPIO_ResetBits(GPIOA, GPIO_Pin_11);
+	GPIO_ResetBits(GPIOA, GPIO_Pin_8);
 	
-	GPIO_EXTILineConfig(GPIO_PortSourceGPIOA, GPIO_PinSource9);
+	GPIO_EXTILineConfig(GPIO_PortSourceGPIOA, GPIO_PinSource15);
 	
 	EXTI_InitTypeDef EXTI_InitStruct;
-	EXTI_InitStruct.EXTI_Line = EXTI_Line9;
+	EXTI_InitStruct.EXTI_Line = EXTI_Line15;
 	EXTI_InitStruct.EXTI_LineCmd = ENABLE;
 	EXTI_InitStruct.EXTI_Mode = EXTI_Mode_Interrupt;
 	EXTI_InitStruct.EXTI_Trigger = EXTI_Trigger_Rising_Falling;
 	EXTI_Init(&EXTI_InitStruct);
 	
 	NVIC_InitTypeDef NVIC_InitStruct;
-	NVIC_InitStruct.NVIC_IRQChannel = EXTI9_5_IRQn;
+	NVIC_InitStruct.NVIC_IRQChannel = EXTI15_10_IRQn;
 	NVIC_InitStruct.NVIC_IRQChannelCmd = ENABLE;
 	NVIC_InitStruct.NVIC_IRQChannelPreemptionPriority = 1;
 	NVIC_InitStruct.NVIC_IRQChannelSubPriority = 1;
 	NVIC_Init(&NVIC_InitStruct);
 }
 
-void Key_Init(void)
-{
-	RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA, ENABLE);
-	
-	GPIO_InitTypeDef GPIO_InitStruct;
-	GPIO_InitStruct.GPIO_Mode = GPIO_Mode_IPU;
-	GPIO_InitStruct.GPIO_Pin = GPIO_Pin_0;     
-	GPIO_InitStruct.GPIO_Speed = GPIO_Speed_50MHz;
-	GPIO_Init(GPIOA, &GPIO_InitStruct);
-}
-uint8_t Key_GetKeyValue(void)
-{
-	if(GPIO_ReadInputDataBit(GPIOA, GPIO_Pin_0) == 0){
-		Delay_us(10);
-		while(GPIO_ReadInputDataBit(GPIOA, GPIO_Pin_0) == 0);
-		Delay_us(10);
-		return 1;
-	}
-	return 0;
-}
+
 /* 触发测距 */
 void HCSR04_RangingStart(void)
 {
-	GPIO_SetBits(GPIOA, GPIO_Pin_11);
+	GPIO_SetBits(GPIOA, GPIO_Pin_8);
 	Delay_us(20);
-	GPIO_ResetBits(GPIOA, GPIO_Pin_11);
+	GPIO_ResetBits(GPIOA, GPIO_Pin_8);
 }
 
 uint16_t HCSR04_GetDistance(void)
 {
-	// 距离计算：(xs * 340 m/s)/2 将x换算为us， 则距离 = 17Counter mm
+	/* 距离计算：(xs * 340 m/s)/2 将x换算为us， 则距离 = 17Counter mm */
+	/* 单位：mm */
 	return hscr04_time * 17;
 }
 
-void EXTI9_5_IRQHandler(void)
+void EXTI15_10_IRQHandler(void)
 {
-	if(EXTI_GetITStatus(EXTI_Line9) == SET){
+	if(EXTI_GetITStatus(EXTI_Line15) == SET){
 		if(hscr04_flag == 0){
 			TIM_Cmd(TIM4, ENABLE);
 			hscr04_flag = 1;
 		}else if(hscr04_flag == 1){
 			hscr04_time = TIM_GetCounter(TIM4);
-			OLED_ShowNum(3,1,hscr04_time,6);
+//			OLED_ShowNum(3,1,hscr04_time,6);
 			TIM_Cmd(TIM4, DISABLE);
 			TIM_SetCounter(TIM4,0);
 			hscr04_flag = 0;
 		}
-		EXTI_ClearITPendingBit(EXTI_Line9);
+		EXTI_ClearITPendingBit(EXTI_Line15);
 	}
 }
 void TIM4_IRQHandler(void)

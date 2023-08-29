@@ -34,6 +34,7 @@
 ".\objects\infrared.o"
 ".\objects\hcsr04.o"
 ".\objects\bt_hc06.o"
+".\objects\sg90.o"
 ".\objects\main.o"
 ".\objects\stm32f10x_it.o"
 ".\objects\motor_test.o"

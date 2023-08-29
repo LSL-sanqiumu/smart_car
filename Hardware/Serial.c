@@ -14,8 +14,8 @@
 
 #include "stm32f10x.h"                  // Device header
 
-uint8_t Rx_DataFlag;
-char Rx_DataPacket[100];
+uint8_t Serial_RxFlag;
+char Serial_RxData[100];
 
 void Serial_Init(void)
 {
@@ -76,7 +76,7 @@ void USART3_IRQHandler(void)
 	if(USART_GetITStatus(USART3, USART_IT_RXNE) == SET){
 		uint16_t rx_data = USART_ReceiveData(USART3);
 		if(rx_state == 0){
-			if(rx_data == '@' && Rx_DataFlag == 0){
+			if(rx_data == '@' && Serial_RxFlag == 0){
 				rx_state = 1;
 				rx_data_index = 0;
 			}
@@ -84,14 +84,14 @@ void USART3_IRQHandler(void)
 			if(rx_data == '\r'){
 				rx_state = 2;
 			}else{
-				Rx_DataPacket[rx_data_index] = rx_data;
+				Serial_RxData[rx_data_index] = rx_data;
 				rx_data_index++;
 			}
 		}else if(rx_state == 2){
 			if(rx_data == '\n'){
 				rx_state = 0;
-				Rx_DataPacket[rx_data_index] = '\0';
-				Rx_DataFlag = 1;
+				Serial_RxData[rx_data_index] = '\0';
+				Serial_RxFlag = 1;
 			}
 		}
 		USART_ClearITPendingBit(USART3, USART_IT_RXNE);
