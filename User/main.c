@@ -46,7 +46,7 @@ int main(void)
 					
 					break;
 				case AutoWayfinding:
-					
+					Car_AutoWayfinding(&Serial_RxFlag, Serial_RxData);
 					break;
 			}
 		}	
@@ -54,9 +54,9 @@ int main(void)
 //		HCSR04_RangingStart();
 //		OLED_ShowNum(1,1,HCSR04_GetDistance(),5);
 //		OLED_ShowString(1,7,"mm");
-//		OLED_ShowNum(1, 1, GPIO_ReadInputDataBit(GPIOB, GPIO_Pin_13), 2);
-//		OLED_ShowNum(2, 1, GPIO_ReadInputDataBit(GPIOB, GPIO_Pin_14), 2);
-//		OLED_ShowNum(3, 1, GPIO_ReadInputDataBit(GPIOA, GPIO_Pin_11), 2);
-//		OLED_ShowNum(4, 1, GPIO_ReadInputDataBit(GPIOA, GPIO_Pin_12), 2);
+		OLED_ShowNum(1, 1, GPIO_ReadInputDataBit(GPIOB, GPIO_Pin_13), 2);
+		OLED_ShowNum(2, 1, GPIO_ReadInputDataBit(GPIOB, GPIO_Pin_14), 2);
+		OLED_ShowNum(3, 1, GPIO_ReadInputDataBit(GPIOA, GPIO_Pin_11), 2);
+		OLED_ShowNum(4, 1, GPIO_ReadInputDataBit(GPIOA, GPIO_Pin_12), 2);
 	}
 }

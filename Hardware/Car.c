@@ -23,7 +23,9 @@
 #include "SG90.h"
 #include "Delay.h"
 
-#define VEER_SPEED 90
+#define VEER_SPEED1 90
+#define VEER_SPEED2 80
+#define VEER_SPEED3 70
 
 /* 前进 */
 void Car_SetGoForwardSpeed(int16_t speed)
@@ -40,26 +42,36 @@ void Car_SetGoBackwardSpeed(int16_t speed)
 /* 正向——左转 */
 void Car_ForwardTurnLeft(void)
 {
-	Motor_SetSpeed_Left(-VEER_SPEED);
-	Motor_SetSpeed_Right(VEER_SPEED);
+	Motor_SetSpeed_Left(-VEER_SPEED1);
+	Motor_SetSpeed_Right(VEER_SPEED1);
+}
+void Car_ForwardTurnLeft60(void)
+{
+	Motor_SetSpeed_Left(-60);
+	Motor_SetSpeed_Right(60);
 }
 /* 正向——右转 */
 void Car_ForwardTurnRight(void)
 {
-	Motor_SetSpeed_Left(VEER_SPEED);
-	Motor_SetSpeed_Right(-VEER_SPEED);
+	Motor_SetSpeed_Left(VEER_SPEED1);
+	Motor_SetSpeed_Right(-VEER_SPEED1);
+}
+void Car_ForwardTurnRight60(void)
+{
+	Motor_SetSpeed_Left(60);
+	Motor_SetSpeed_Right(-60);
 }
 /* 逆向——左转 */
 void Car_InverseTurnLeft(void)
 {
-	Motor_SetSpeed_Left(VEER_SPEED);
-	Motor_SetSpeed_Right(-VEER_SPEED);
+	Motor_SetSpeed_Left(VEER_SPEED1);
+	Motor_SetSpeed_Right(-VEER_SPEED1);
 }
 /* 逆向——右转 */
 void Car_InverseTurnRight(void)
 {
-	Motor_SetSpeed_Left(-VEER_SPEED);
-	Motor_SetSpeed_Right(VEER_SPEED);
+	Motor_SetSpeed_Left(-VEER_SPEED1);
+	Motor_SetSpeed_Right(VEER_SPEED1);
 }
 
 /* 手动 */
@@ -110,11 +122,54 @@ void Car_ManualMode(uint8_t* flag, char* command)
 /* 每隔一段时间发送超声波，如果检测到在距离在一定范围内则代表前方有障碍物
 	有障碍物：转动舵机，检测左方、右方是否有障碍物，没有杂物就左转然后前进
 */
+void Car_AutoAvoid(void)
+{
+	
+}
 
-
-/* 自动寻迹 */
-/*  */
-
+/* 自动寻迹  B14右  A11左 */
+/* 三种状态：直走  左转  右转 */
+/*
+直走：中间为1，左右为0
+右转：中左为0，中右和右为1
+左转：中右为0，中左和左为1
+*/
+void Car_AutoWayfinding(uint8_t* flag, char* command)
+{
+	uint8_t left = 0;
+	uint8_t middle = 0;
+	uint8_t right = 0;
+	while(1){
+		left = GPIO_ReadInputDataBit(GPIOA, GPIO_Pin_12);
+		right = GPIO_ReadInputDataBit(GPIOB, GPIO_Pin_13); 
+		middle = GPIO_ReadInputDataBit(GPIOA, GPIO_Pin_11) & GPIO_ReadInputDataBit(GPIOB, GPIO_Pin_14);
+		if(middle){
+			Car_SetGoForwardSpeed(60);
+		}
+		if(left && !middle){
+			Car_ForwardTurnLeft60();
+		}
+		
+		if(right && !middle){
+			Car_ForwardTurnRight60();
+		}
+		if(!GPIO_ReadInputDataBit(GPIOA, GPIO_Pin_11) &&
+			!GPIO_ReadInputDataBit(GPIOB, GPIO_Pin_14) && !left && !right){
+			Car_SetGoForwardSpeed(0);
+		}
+		
+		if(*flag == 1){
+			Serial_SendString("OK  ");
+			Serial_SendString(command);
+			*flag = 0;
+			Serial_SendString("\n");
+			if(BT_GetInstructionValue(command) == AutoWayfinding_Exit){
+				Car_SetGoForwardSpeed(0);
+				return;
+			}
+		}
+	}
+}
 
 /* 原地旋转 */
 
