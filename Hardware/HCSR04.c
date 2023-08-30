@@ -78,6 +78,18 @@ uint16_t HCSR04_GetDistance(void)
 	return hscr04_time * 17;
 }
 
+uint16_t HCSR04_GetAvgValue(uint8_t num)
+{
+	uint16_t total = 0; 
+	uint8_t i;
+	for(i = 0; i < num; i++){
+		HCSR04_RangingStart();
+		Delay_ms(60);
+		total += HCSR04_GetDistance();
+	}
+	return total / num;
+}
+
 void EXTI15_10_IRQHandler(void)
 {
 	if(EXTI_GetITStatus(EXTI_Line15) == SET){

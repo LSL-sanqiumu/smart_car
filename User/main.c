@@ -43,7 +43,7 @@ int main(void)
 					Car_ManualMode(&Serial_RxFlag, Serial_RxData);
 					break;
 				case AutoAvoid:
-					
+					Car_AutoAvoid(&Serial_RxFlag, Serial_RxData);
 					break;
 				case AutoWayfinding:
 					Car_AutoWayfinding(&Serial_RxFlag, Serial_RxData);

@@ -22,56 +22,65 @@
 #include "HCSR04.h"
 #include "SG90.h"
 #include "Delay.h"
+#include "OLED.h"
 
-#define VEER_SPEED1 90
-#define VEER_SPEED2 80
-#define VEER_SPEED3 70
+#define SPEED_NONE   0
+#define SPEED_MIN    60
+#define SPEED_MIDDLE 90
+#define SPEED_MAX    100
+
+#define OBSTACLE_SET 1
+#define OBSTACLE_RESET 0
+
+#define DISTANCE_VALUE_MAX 30      /* 单位：mm */
 
 /* 前进 */
-void Car_SetGoForwardSpeed(int16_t speed)
+void Car_SetGoForwardSpeed(uint8_t speed)
 {
 	Motor_SetSpeed_Left(speed);
 	Motor_SetSpeed_Right(speed);
 }
 /* 后退 */
-void Car_SetGoBackwardSpeed(int16_t speed)
+void Car_SetGoBackwardSpeed(uint8_t speed)
 {
-	Motor_SetSpeed_Left(speed);
-	Motor_SetSpeed_Right(speed);
+	Motor_SetSpeed_Left(-speed);
+	Motor_SetSpeed_Right(-speed);
 }
 /* 正向——左转 */
-void Car_ForwardTurnLeft(void)
+void Car_ForwardTurnLeft(uint8_t veer_speed)
 {
-	Motor_SetSpeed_Left(-VEER_SPEED1);
-	Motor_SetSpeed_Right(VEER_SPEED1);
+	Motor_SetSpeed_Left(-veer_speed);
+	Motor_SetSpeed_Right(veer_speed);
 }
-void Car_ForwardTurnLeft60(void)
-{
-	Motor_SetSpeed_Left(-60);
-	Motor_SetSpeed_Right(60);
-}
+
 /* 正向——右转 */
-void Car_ForwardTurnRight(void)
+void Car_ForwardTurnRight(uint8_t veer_speed)
 {
-	Motor_SetSpeed_Left(VEER_SPEED1);
-	Motor_SetSpeed_Right(-VEER_SPEED1);
+	Motor_SetSpeed_Left(veer_speed);
+	Motor_SetSpeed_Right(-veer_speed);
 }
-void Car_ForwardTurnRight60(void)
-{
-	Motor_SetSpeed_Left(60);
-	Motor_SetSpeed_Right(-60);
-}
+
 /* 逆向——左转 */
-void Car_InverseTurnLeft(void)
+void Car_InverseTurnLeft(uint8_t veer_speed)
 {
-	Motor_SetSpeed_Left(VEER_SPEED1);
-	Motor_SetSpeed_Right(-VEER_SPEED1);
+	Motor_SetSpeed_Left(veer_speed);
+	Motor_SetSpeed_Right(-veer_speed);
 }
 /* 逆向——右转 */
-void Car_InverseTurnRight(void)
+void Car_InverseTurnRight(uint8_t veer_speed)
 {
-	Motor_SetSpeed_Left(-VEER_SPEED1);
-	Motor_SetSpeed_Right(VEER_SPEED1);
+	Motor_SetSpeed_Left(-veer_speed);
+	Motor_SetSpeed_Right(veer_speed);
+}
+
+void Car_ModeMsg(uint8_t* flag, char* command)
+{
+	if(*flag == 1){
+		Serial_SendString("OK  ");
+		Serial_SendString(command);
+		*flag = 0;
+		Serial_SendString("\n");
+	}
 }
 
 /* 手动 */
@@ -85,30 +94,30 @@ void Car_ManualMode(uint8_t* flag, char* command)
 		Serial_SendString("\n");
 		switch(BT_GetInstructionValue(command)){
 			case Startup:
-				Car_SetGoForwardSpeed(90);
+				Car_SetGoForwardSpeed(SPEED_MIDDLE);
 				break;
 			case Stop:
-				Car_SetGoForwardSpeed(0);
+				Car_SetGoForwardSpeed(SPEED_NONE);
 				break;
 			case GoForward:
-				Car_SetGoBackwardSpeed(90);
+				Car_SetGoBackwardSpeed(SPEED_MIDDLE);
 				Delay_ms(200);
-				Car_SetGoBackwardSpeed(0);
+				Car_SetGoBackwardSpeed(SPEED_NONE);
 				break;
 			case GoBackward:
-				Car_SetGoBackwardSpeed(-90);
+				Car_SetGoBackwardSpeed(SPEED_MIDDLE);
 				Delay_ms(200);
-				Car_SetGoBackwardSpeed(0);
+				Car_SetGoBackwardSpeed(SPEED_NONE);
 				break;
 			case TurnLeft:
-				Car_ForwardTurnLeft();
+				Car_ForwardTurnLeft(SPEED_MIDDLE);
 				Delay_ms(200);
-				Car_SetGoForwardSpeed(0);
+				Car_SetGoForwardSpeed(SPEED_NONE);
 				break;
 			case TurnRight:
-				Car_ForwardTurnRight();
+				Car_ForwardTurnRight(SPEED_MIDDLE);
 				Delay_ms(200);
-				Car_SetGoForwardSpeed(0);
+				Car_SetGoForwardSpeed(SPEED_NONE);
 				break;
 			case ManualMode_Exit:
 				return;
@@ -122,9 +131,74 @@ void Car_ManualMode(uint8_t* flag, char* command)
 /* 每隔一段时间发送超声波，如果检测到在距离在一定范围内则代表前方有障碍物
 	有障碍物：转动舵机，检测左方、右方是否有障碍物，没有杂物就左转然后前进
 */
-void Car_AutoAvoid(void)
+
+uint8_t Car_ObstacleFlag(void)
 {
-	
+	uint16_t avg = HCSR04_GetAvgValue(4);
+	OLED_ShowNum(1,8,avg,6);
+	if( avg <= DISTANCE_VALUE_MAX){
+		return OBSTACLE_SET;
+	}
+	return OBSTACLE_RESET;
+}
+/* 25—左 15—中 5—右*/
+void Car_AutoAvoid(uint8_t* flag, char* command)
+{
+	SG90_SetAngle(15);
+	Car_SetGoForwardSpeed(SPEED_MIN);
+	while(1){
+		if(Car_ObstacleFlag() == OBSTACLE_SET)
+		{
+			Car_SetGoForwardSpeed(SPEED_NONE);
+			Delay_ms(500);
+			SG90_SetAngle(25);
+			/* 左方有障碍物 */
+			if(Car_ObstacleFlag() == OBSTACLE_SET){
+				SG90_SetAngle(15);
+				Delay_ms(500);
+				SG90_SetAngle(5);
+				if(Car_ObstacleFlag() == OBSTACLE_SET){
+					Delay_ms(500);
+					SG90_SetAngle(15);
+//					Car_SetGoBackwardSpeed(SPEED_MIN);
+//					Delay_ms(1000);
+
+				}else{
+					Delay_ms(500);
+					SG90_SetAngle(15);
+					/* 右转 */
+					Car_ForwardTurnRight(SPEED_MIN);
+					Delay_ms(1000);
+					Car_SetGoForwardSpeed(SPEED_MIN);
+				}
+			}else {
+				Delay_ms(500);
+				SG90_SetAngle(15);
+				/* 左转 */
+				Car_ForwardTurnLeft(SPEED_MIN);
+				Delay_ms(1000);
+				Car_SetGoForwardSpeed(SPEED_MIN);
+			}
+		}else {
+			Car_SetGoForwardSpeed(60);
+			SG90_SetAngle(15);
+		}
+		Car_ModeMsg(flag, command);
+		if(BT_GetInstructionValue(command) == AutoAvoid_Exit){
+			Car_SetGoForwardSpeed(0);
+			return;
+		}
+//		if(*flag == 1){
+//			Serial_SendString("OK  ");
+//			Serial_SendString(command);
+//			*flag = 0;
+//			Serial_SendString("\n");
+//			if(BT_GetInstructionValue(command) == AutoAvoid_Exit){
+//				Car_SetGoForwardSpeed(0);
+//				return;
+//			}
+//		}
+	}
 }
 
 /* 自动寻迹  B14右  A11左 */
@@ -144,30 +218,34 @@ void Car_AutoWayfinding(uint8_t* flag, char* command)
 		right = GPIO_ReadInputDataBit(GPIOB, GPIO_Pin_13); 
 		middle = GPIO_ReadInputDataBit(GPIOA, GPIO_Pin_11) & GPIO_ReadInputDataBit(GPIOB, GPIO_Pin_14);
 		if(middle){
-			Car_SetGoForwardSpeed(60);
+			Car_SetGoForwardSpeed(SPEED_MIN);
 		}
 		if(left && !middle){
-			Car_ForwardTurnLeft60();
+			Car_ForwardTurnLeft(SPEED_MIN);
 		}
 		
 		if(right && !middle){
-			Car_ForwardTurnRight60();
+			Car_ForwardTurnRight(SPEED_MIN);
 		}
 		if(!GPIO_ReadInputDataBit(GPIOA, GPIO_Pin_11) &&
 			!GPIO_ReadInputDataBit(GPIOB, GPIO_Pin_14) && !left && !right){
+			Car_SetGoForwardSpeed(SPEED_NONE);
+		}
+		Car_ModeMsg(flag, command);
+		if(BT_GetInstructionValue(command) == AutoWayfinding_Exit){
 			Car_SetGoForwardSpeed(0);
+			return;
 		}
-		
-		if(*flag == 1){
-			Serial_SendString("OK  ");
-			Serial_SendString(command);
-			*flag = 0;
-			Serial_SendString("\n");
-			if(BT_GetInstructionValue(command) == AutoWayfinding_Exit){
-				Car_SetGoForwardSpeed(0);
-				return;
-			}
-		}
+//		if(*flag == 1){
+//			Serial_SendString("OK  ");
+//			Serial_SendString(command);
+//			*flag = 0;
+//			Serial_SendString("\n");
+//			if(BT_GetInstructionValue(command) == AutoWayfinding_Exit){
+//				Car_SetGoForwardSpeed(0);
+//				return;
+//			}
+//		}
 	}
 }
 

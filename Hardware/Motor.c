@@ -93,7 +93,7 @@ void Motor_Init(void)
 *	调用关系：无
 **********************************************************
 */
-void Motor_SetSpeed_Left(int16_t speed)
+void Motor_SetSpeed_Left(int8_t speed)
 {
 	if(speed > 0){
 		GPIO_SetBits(GPIOA, GPIO_Pin_4);
@@ -114,7 +114,7 @@ void Motor_SetSpeed_Left(int16_t speed)
 *	调用关系：无
 **********************************************************
 */
-void Motor_SetSpeed_Right(int16_t speed)
+void Motor_SetSpeed_Right(int8_t speed)
 {
 	if(speed > 0){
 		GPIO_SetBits(GPIOA, GPIO_Pin_6);

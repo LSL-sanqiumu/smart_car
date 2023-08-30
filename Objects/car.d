@@ -35,3 +35,4 @@
 .\objects\car.o: Hardware\HCSR04.h
 .\objects\car.o: Hardware\SG90.h
 .\objects\car.o: .\System\Delay.h
+.\objects\car.o: Hardware\OLED.h

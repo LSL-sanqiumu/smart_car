@@ -12,5 +12,6 @@ void Car_InverseTurnRight(void);
 
 void Car_ManualMode(uint8_t* flag, char* command);
 void Car_AutoWayfinding(uint8_t* flag, char* command);
+void Car_AutoAvoid(uint8_t* flag, char* command);
 
 #endif
