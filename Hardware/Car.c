@@ -32,7 +32,7 @@
 #define OBSTACLE_SET 1
 #define OBSTACLE_RESET 0
 
-#define DISTANCE_VALUE_MAX 30      /* 单位：mm */
+#define DISTANCE_VALUE_MAX 80      /* 单位：mm */
 
 /* 前进 */
 void Car_SetGoForwardSpeed(uint8_t speed)
@@ -100,9 +100,9 @@ void Car_ManualMode(uint8_t* flag, char* command)
 				Car_SetGoForwardSpeed(SPEED_NONE);
 				break;
 			case GoForward:
-				Car_SetGoBackwardSpeed(SPEED_MIDDLE);
+				Car_SetGoForwardSpeed(SPEED_MIDDLE);
 				Delay_ms(200);
-				Car_SetGoBackwardSpeed(SPEED_NONE);
+				Car_SetGoForwardSpeed(SPEED_NONE);
 				break;
 			case GoBackward:
 				Car_SetGoBackwardSpeed(SPEED_MIDDLE);
@@ -134,7 +134,7 @@ void Car_ManualMode(uint8_t* flag, char* command)
 
 uint8_t Car_ObstacleFlag(void)
 {
-	uint16_t avg = HCSR04_GetAvgValue(4);
+	uint16_t avg = HCSR04_GetAvgValue(2);
 	OLED_ShowNum(1,8,avg,6);
 	if( avg <= DISTANCE_VALUE_MAX){
 		return OBSTACLE_SET;

@@ -98,6 +98,15 @@ uint8_t BT_GetInstructionValue(char* command)
 //	if(strcmp(command,"Car_AutoWayfinding") == 0){
 //		return AutoWayfinding;
 //	}
+//    if(strcmp(command,"ManualMode_Exit") == 0){
+//		return ManualMode_Exit;
+//	}
+//    if(strcmp(command,"AutoAvoid_Exit") == 0){
+//		return AutoAvoid_Exit;
+//	}
+//    if(strcmp(command,"AutoWayfinding_Exit") == 0){
+//		return AutoWayfinding_Exit;
+//	}
 	return 0;
 }
 
