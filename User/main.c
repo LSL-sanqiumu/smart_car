@@ -37,8 +37,7 @@ int main(void)
 			Serial_RxFlag = 0;
 			Serial_SendString("\n");
 			
-			switch(BT_GetInstructionValue(Serial_RxData)){
-				
+			switch(BT_GetInstructionValue(Serial_RxData)){		
 				case ManualMode:
 					Car_ManualMode(&Serial_RxFlag, Serial_RxData);
 					break;

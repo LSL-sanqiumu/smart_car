@@ -4,6 +4,8 @@
 
 void SG90_PWMInit(void);
 void SG90_SetAngle(uint8_t angle);
+void SG90_AngleInit(void);
+
 void SG90_Test(uint8_t angle);
 
 #endif

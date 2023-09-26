@@ -28,10 +28,15 @@ void SG90_PWMInit(void){
 	
 	TIM_Cmd(TIM3, ENABLE);
 }
-// 20ms周期， 0.5ms=-90°(5)，1ms=-45°(10)，1.5ms=0°(15)，2ms=45°(20)，2.5ms=90°(25)
+/* 20ms周期， 0.5ms=-90°(5)，1ms=-45°(10)，1.5ms=0°(15)，2ms=45°(20)，2.5ms=90°(25) */
 void SG90_SetAngle(uint8_t angle)
 {
 	TIM_SetCompare3(TIM3, angle);
+}
+
+void SG90_AngleInit(void)
+{
+	SG90_SetAngle(15);
 }
 
 void SG90_Test(uint8_t angle)

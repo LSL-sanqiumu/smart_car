@@ -40,11 +40,19 @@ void Car_SetGoForwardSpeed(uint8_t speed)
 	Motor_SetSpeed_Left(speed);
 	Motor_SetSpeed_Right(speed);
 }
+void CarGoForward(uint8_t speed) 
+{
+    Car_SetGoForwardSpeed(speed);
+}
 /* 后退 */
 void Car_SetGoBackwardSpeed(uint8_t speed)
 {
 	Motor_SetSpeed_Left(-speed);
 	Motor_SetSpeed_Right(-speed);
+}
+void Car_GoBackward(uint8_t speed)
+{
+    Car_SetGoBackwardSpeed(speed);
 }
 /* 正向——左转 */
 void Car_ForwardTurnLeft(uint8_t veer_speed)
@@ -71,6 +79,17 @@ void Car_InverseTurnRight(uint8_t veer_speed)
 {
 	Motor_SetSpeed_Left(-veer_speed);
 	Motor_SetSpeed_Right(veer_speed);
+}
+
+/* 启动与停止 */
+void Car_Start(void) 
+{
+    Car_SetGoForwardSpeed(SPEED_MIN);
+}
+
+void Car_Stop(void) 
+{
+    Car_SetGoForwardSpeed(SPEED_NONE);
 }
 
 void Car_ModeMsg(uint8_t* flag, char* command)
@@ -144,44 +163,50 @@ uint8_t Car_ObstacleFlag(void)
 /* 25—左 15—中 5—右*/
 void Car_AutoAvoid(uint8_t* flag, char* command)
 {
-	SG90_SetAngle(15);
-	Car_SetGoForwardSpeed(SPEED_MIN);
+	SG90_AngleInit();
+    //Car_Start();
+    
 	while(1){
-		if(Car_ObstacleFlag() == OBSTACLE_SET)
-		{
-			Car_SetGoForwardSpeed(SPEED_NONE);
+        /* 前方有障碍物，转向左方检测 */
+		if(Car_ObstacleFlag() == OBSTACLE_SET){
+            Car_Stop();
 			Delay_ms(500);
 			SG90_SetAngle(25);
-			/* 左方有障碍物 */
+            Delay_ms(500);
+			/* 左方有障碍物，再转向右方检测 */
 			if(Car_ObstacleFlag() == OBSTACLE_SET){
-				SG90_SetAngle(15);
+				SG90_AngleInit();
 				Delay_ms(500);
 				SG90_SetAngle(5);
+                Delay_ms(500);
+                /* 右方也有障碍物，那就后退一段距离，没有就往右转 */
 				if(Car_ObstacleFlag() == OBSTACLE_SET){
-					Delay_ms(500);
-					SG90_SetAngle(15);
-//					Car_SetGoBackwardSpeed(SPEED_MIN);
-//					Delay_ms(1000);
-
-				}else{
-					Delay_ms(500);
-					SG90_SetAngle(15);
-					/* 右转 */
-					Car_ForwardTurnRight(SPEED_MIN);
+					SG90_AngleInit();
+                    Delay_ms(500);
+                    /*
+					Car_SetGoBackwardSpeed(SPEED_MIN);
 					Delay_ms(1000);
-					Car_SetGoForwardSpeed(SPEED_MIN);
+                    */
+                    Car_GoBackward(SPEED_MIN);
+                    Delay_ms(2000);
+				}else{
+					SG90_AngleInit();
+                    Delay_ms(500);
+					/* 右转 */
+					Car_ForwardTurnRight(SPEED_MIDDLE);
+					Delay_ms(900);
+                    Car_Start();
 				}
 			}else {
-				Delay_ms(500);
-				SG90_SetAngle(15);
+				SG90_AngleInit();
+                Delay_ms(500);
 				/* 左转 */
-				Car_ForwardTurnLeft(SPEED_MIN);
-				Delay_ms(1000);
-				Car_SetGoForwardSpeed(SPEED_MIN);
+				Car_ForwardTurnLeft(SPEED_MIDDLE);
+				Delay_ms(900);
+                Car_Start();
 			}
 		}else {
-			Car_SetGoForwardSpeed(60);
-			SG90_SetAngle(15);
+            Car_Start();
 		}
 		Car_ModeMsg(flag, command);
 		if(BT_GetInstructionValue(command) == AutoAvoid_Exit){
